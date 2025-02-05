@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Config;
+namespace App\Core;
 
 class Database
 {
@@ -9,21 +9,18 @@ class Database
 
     private function __construct()
     {
-        $host = 'localhost';
-        $db   = 'cabinet_medical';
-        $pass = '';
-       
-        $charset = 'utf8';
+        $config = require __DIR__ . '/../config/config.php';
+        $db = $config['db'];
 
-        $dsn = "pgsql:host=$host;dbname=$db;apassword=$pass;charset=$charset";
+        $dsn = "pgsql:host={$db['host']};dbname={$db['name']};charset={$db['charset']}";
         $options = [
-            \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES   => false,
+            \PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
         try {
-            $this->conn = new \PDO($dsn, $user, $pass, $options);
+            $this->conn = new \PDO($dsn, $db['user'], $db['pass'], $options);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
@@ -31,8 +28,8 @@ class Database
 
     public static function getInstance()
     {
-        if (self::$instance == null) {
-            self::$instance = new Database();
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
         return self::$instance;
     }
@@ -40,6 +37,5 @@ class Database
     public function getConnection()
     {
         return $this->conn;
-        
     }
 }
