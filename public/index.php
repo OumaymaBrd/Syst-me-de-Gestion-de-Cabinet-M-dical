@@ -41,3 +41,6 @@ $router->addRoute('POST', '/appointments/delete', 'AppointmentController@delete'
 
 // Dispatch the request
 $router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+
+$router->addRoute('GET', '/register', 'AuthController@register');
+$router->addRoute('POST', '/register', 'AuthController@register');
