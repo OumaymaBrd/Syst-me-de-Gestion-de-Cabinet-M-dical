@@ -6,7 +6,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Oumayma\\Cabinet\\": "src/"
+            "Oumayma\\Cabinet\\": "src/",
+            "App\\": "src/"
         }
     },
     "authors": [
