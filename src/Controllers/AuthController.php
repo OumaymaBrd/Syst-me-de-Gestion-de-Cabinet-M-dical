@@ -16,6 +16,10 @@ class AuthController extends Controller
 
     public function login()
     {
+        if ($this->isLoggedIn()) {
+            $this->redirectToDashboard();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -25,9 +29,9 @@ class AuthController extends Controller
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_role'] = $user['role'];
-                $this->redirect('/dashboard');
+                $this->redirectToDashboard();
             } else {
-                $error = "Invalid email or password";
+                $error = "Email ou mot de passe invalide";
                 $this->render('auth/login', ['error' => $error]);
             }
         } else {
@@ -37,25 +41,60 @@ class AuthController extends Controller
 
     public function register()
     {
+        if ($this->isLoggedIn()) {
+            $this->redirectToDashboard();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
             $email = $_POST['email'];
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $password = $_POST['password'];
+            $confirmPassword = $_POST['confirm_password'];
             $role = $_POST['role'];
 
+            // Validation simple
+            if (empty($name) || empty($email) || empty($password) || empty($confirmPassword) || empty($role)) {
+                $error = "Tous les champs sont requis";
+                $this->render('auth/register', ['error' => $error]);
+                return;
+            }
+
+            if ($password !== $confirmPassword) {
+                $error = "Les mots de passe ne correspondent pas";
+                $this->render('auth/register', ['error' => $error]);
+                return;
+            }
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide";
+                $this->render('auth/register', ['error' => $error]);
+                return;
+            }
+
+            // Vérifier si l'email existe déjà
+            if ($this->userModel->findByEmail($email)) {
+                $error = "Cet email est déjà utilisé";
+                $this->render('auth/register', ['error' => $error]);
+                return;
+            }
+
+            // Hasher le mot de passe
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Créer l'utilisateur
             $userId = $this->userModel->create([
                 'name' => $name,
                 'email' => $email,
-                'password' => $password,
+                'password' => $hashedPassword,
                 'role' => $role
             ]);
 
             if ($userId) {
                 $_SESSION['user_id'] = $userId;
                 $_SESSION['user_role'] = $role;
-                $this->redirect('/dashboard');
+                $this->redirectToDashboard();
             } else {
-                $error = "Registration failed";
+                $error = "Une erreur est survenue lors de l'inscription";
                 $this->render('auth/register', ['error' => $error]);
             }
         } else {
@@ -67,5 +106,23 @@ class AuthController extends Controller
     {
         session_destroy();
         $this->redirect('/login');
+    }
+
+    private function redirectToDashboard()
+    {
+        switch ($_SESSION['user_role']) {
+            case 'admin':
+                $this->redirect('/admin/dashboard');
+                break;
+            case 'patient':
+                $this->redirect('/patient/profile');
+                break;
+            case 'medecin':
+                $this->redirect('/medecin/profile');
+                break;
+            default:
+                $this->redirect('/');
+                break;
+        }
     }
 }
