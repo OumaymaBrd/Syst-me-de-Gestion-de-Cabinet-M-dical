@@ -36,25 +36,4 @@ abstract class Model
         
         return $this->db->lastInsertId();
     }
-
-    public function update($id, $data)
-    {
-        $set = [];
-        foreach ($data as $key => $value) {
-            $set[] = "$key = :$key";
-        }
-        $set = implode(', ', $set);
-        
-        $sql = "UPDATE {$this->table} SET $set WHERE id = :id";
-        $data['id'] = $id;
-        
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute($data);
-    }
-
-    public function delete($id)
-    {
-        $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
-    }
 }

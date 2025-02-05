@@ -4,18 +4,15 @@ namespace App\Core;
 
 abstract class Controller
 {
-    protected $view;
-    protected $security;
-
-    public function __construct()
+    protected function render($view, $data = [])
     {
-        $this->view = new View();
-        $this->security = new Security();
-    }
-
-    protected function render($template, $data = [])
-    {
-        return $this->view->render($template, $data);
+        extract($data);
+        
+        ob_start();
+        require_once dirname(__DIR__) . "/app/Views/{$view}.php";
+        $content = ob_get_clean();
+        
+        require_once dirname(__DIR__) . "/app/Views/layouts/main.php";
     }
 
     protected function redirect($url)
@@ -28,25 +25,5 @@ abstract class Controller
     {
         header('Content-Type: application/json');
         echo json_encode($data);
-    }
-
-    protected function isLoggedIn()
-    {
-        return isset($_SESSION['user_id']);
-    }
-
-    protected function requireLogin()
-    {
-        if (!$this->isLoggedIn()) {
-            $this->redirect('/login');
-        }
-    }
-
-    protected function requireRole($role)
-    {
-        $this->requireLogin();
-        if ($_SESSION['user_role'] !== $role) {
-            $this->redirect('/');
-        }
     }
 }

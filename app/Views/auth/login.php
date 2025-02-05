@@ -6,8 +6,6 @@
     <?php endif; ?>
 
     <form method="POST" action="/login" class="auth-form">
-        <input type="hidden" name="csrf_token" value="<?php echo $this->security->generateCsrfToken(); ?>">
-        
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required class="form-control">

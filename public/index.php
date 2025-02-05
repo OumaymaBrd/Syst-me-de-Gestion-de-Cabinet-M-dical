@@ -8,6 +8,10 @@ $dotenv->load();
 // Initialiser la session
 session_start();
 
+use App\Core\Router;
+
+$router = new Router();
+
 // Créer une instance du routeur
 $router = new App\Core\Router();
 

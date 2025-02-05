@@ -9,8 +9,8 @@ class Database
 
     private function __construct()
     {
-        $config = require __DIR__ . '/../config/config.php';
-        $db = $config['db'];
+        $config = require dirname(__DIR__) . '/config/config.php';
+        $db = $config['database'];
 
         $dsn = "mysql:host={$db['host']};dbname={$db['name']};charset={$db['charset']}";
         $options = [

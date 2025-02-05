@@ -21,16 +21,15 @@ class Router
         
         foreach ($this->routes as $route) {
             if ($route['method'] === $method && $this->matchPath($route['path'], $uri, $params)) {
-                [$controller, $action] = $route['handler'];
-                $controllerInstance = new $controller();
+                [$controller, $action] = explode('@', $route['handler']);
+                $controllerClass = "App\\Controllers\\$controller";
+                $controllerInstance = new $controllerClass();
                 call_user_func_array([$controllerInstance, $action], $params);
                 return;
             }
         }
 
-        // Si aucune route ne correspond
-        header("HTTP/1.0 404 Not Found");
-        include __DIR__ . '/../app/Views/errors/404.php';
+        throw new \Exception('Route not found');
     }
 
     private function matchPath($routePath, $uri, &$params)
