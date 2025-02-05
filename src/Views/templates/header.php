@@ -11,23 +11,18 @@
         <nav>
             <ul>
                 <li><a href="/">Accueil</a></li>
-                <?php if (isset($_SESSION['user_role'])): ?>
+                <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if ($_SESSION['user_role'] === 'admin'): ?>
                         <li><a href="/admin/dashboard">Tableau de bord</a></li>
-                        <li><a href="/admin/users">Utilisateurs</a></li>
                     <?php elseif ($_SESSION['user_role'] === 'patient'): ?>
                         <li><a href="/patient/profile">Profil</a></li>
-                        <li><a href="/patient/appointments">Mes rendez-vous</a></li>
                     <?php elseif ($_SESSION['user_role'] === 'medecin'): ?>
                         <li><a href="/medecin/profile">Profil</a></li>
-                        <li><a href="/medecin/schedule">Planning</a></li>
                     <?php endif; ?>
                     <li><a href="/logout">Déconnexion</a></li>
                 <?php else: ?>
-                    <?php if (!isset($_SESSION['user_id'])): ?>
-    <li><a href="/login">Connexion</a></li>
-    <li><a href="/register">Inscription</a></li>
-<?php endif; ?>
+                    <li><a href="/login">Connexion</a></li>
+                    <li><a href="/register">Inscription</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
