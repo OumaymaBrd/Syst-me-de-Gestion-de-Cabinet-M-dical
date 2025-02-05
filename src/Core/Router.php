@@ -28,7 +28,6 @@ class Router
             }
         }
 
-        // If no route matches, show 404 error
         header("HTTP/1.0 404 Not Found");
         echo "404 Not Found";
     }
