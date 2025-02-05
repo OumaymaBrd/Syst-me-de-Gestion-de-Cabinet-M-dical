@@ -1,0 +1,18 @@
+{
+    "name": "oumayma/cabinet",
+    "description": "Un projet PHP pour la gestion d'un cabinet.",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oumayma\\Cabinet\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Oumayma Bramid",
+            "email": "oumaymabramid@gmail.com"
+        }
+    ]
+}
