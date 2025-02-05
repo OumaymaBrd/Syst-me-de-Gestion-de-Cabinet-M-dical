@@ -22,19 +22,4 @@ abstract class Controller
     {
         return isset($_SESSION['user_id']);
     }
-
-    protected function requireLogin()
-    {
-        if (!$this->isLoggedIn()) {
-            $this->redirect('/login');
-        }
-    }
-
-    protected function requireAdmin()
-    {
-        $this->requireLogin();
-        if ($_SESSION['user_role'] !== 'admin') {
-            $this->redirect('/');
-        }
-    }
 }
