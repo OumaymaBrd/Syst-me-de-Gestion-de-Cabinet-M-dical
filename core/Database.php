@@ -12,7 +12,7 @@ class Database
         $config = require __DIR__ . '/../config/config.php';
         $db = $config['db'];
 
-        $dsn = "pgsql:host={$db['host']};dbname={$db['name']};charset={$db['charset']}";
+        $dsn = "mysql:host={$db['host']};dbname={$db['name']};charset={$db['charset']}";
         $options = [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
