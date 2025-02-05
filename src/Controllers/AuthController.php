@@ -52,7 +52,6 @@ class AuthController extends Controller
             $confirmPassword = $_POST['confirm_password'];
             $role = $_POST['role'];
 
-            // Validation simple
             if (empty($name) || empty($email) || empty($password) || empty($confirmPassword) || empty($role)) {
                 $error = "Tous les champs sont requis";
                 $this->render('auth/register', ['error' => $error]);
@@ -71,17 +70,14 @@ class AuthController extends Controller
                 return;
             }
 
-            // Vérifier si l'email existe déjà
             if ($this->userModel->findByEmail($email)) {
                 $error = "Cet email est déjà utilisé";
                 $this->render('auth/register', ['error' => $error]);
                 return;
             }
 
-            // Hasher le mot de passe
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // Créer l'utilisateur
             $userId = $this->userModel->create([
                 'name' => $name,
                 'email' => $email,
