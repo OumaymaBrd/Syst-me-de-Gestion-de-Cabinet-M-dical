@@ -14,6 +14,7 @@ class UserModel extends Model
         $stmt->execute(['email' => $email]);
         return $stmt->fetch();
     }
+
     public function create($data)
     {
         $sql = "INSERT INTO {$this->table} (name, email, password, role) VALUES (:name, :email, :password, :role)";
