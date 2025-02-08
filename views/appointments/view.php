@@ -24,6 +24,12 @@
             <th>Statut</th>
             <td id="status-display"><?php echo htmlspecialchars($appointment['statut']); ?></td>
         </tr>
+        <?php if ($appointment['type'] === 'consultation'): ?>
+        <tr>
+            <th>Statut de consultation</th>
+            <td id="consultation-status-display"><?php echo htmlspecialchars($appointment['consultation_statut']); ?></td>
+        </tr>
+        <?php endif; ?>
     </table>
 
     <?php if ($_SESSION['role'] === 'medecin'): ?>
@@ -68,6 +74,9 @@ function handleUpdateSubmit(event) {
                 document.getElementById('success-message').textContent = response.message;
                 document.getElementById('success-message').style.display = 'block';
                 document.getElementById('status-display').textContent = formData.get('statut');
+                if (document.getElementById('consultation-status-display')) {
+                    document.getElementById('consultation-status-display').textContent = formData.get('statut');
+                }
             } else {
                 alert('Erreur: ' + response.message);
             }

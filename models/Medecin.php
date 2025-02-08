@@ -14,8 +14,8 @@ class Medecin extends User {
     }
 
     public function updateAppointmentStatus($appointment_id, $statut) {
-        $stmt = $this->db->prepare("UPDATE rendez_vous SET statut = ? WHERE id = ? AND medecin_id = ?");
-        return $stmt->execute([$statut, $appointment_id, $this->id]);
+        $stmt = $this->db->prepare("UPDATE rendez_vous SET statut = ?, consultation_statut = ? WHERE id = ? AND medecin_id = ?");
+        return $stmt->execute([$statut, $statut, $appointment_id, $this->id]);
     }
 
     public function getConsultations() {
@@ -25,7 +25,7 @@ class Medecin extends User {
     }
 
     public function replyToConsultation($consultation_id, $reponse) {
-        $stmt = $this->db->prepare("UPDATE rendez_vous SET consultation_reponse = CONCAT(IFNULL(consultation_reponse, ''), '\n\nMédecin: ', ?), consultation_statut = 'repondu' WHERE id = ? AND medecin_id = ?");
+        $stmt = $this->db->prepare("UPDATE rendez_vous SET consultation_reponse = CONCAT(IFNULL(consultation_reponse, ''), '\n\nMédecin: ', ?), consultation_statut = 'repondu', statut = 'repondu' WHERE id = ? AND medecin_id = ?");
         return $stmt->execute([$reponse, $consultation_id, $this->id]);
     }
 
@@ -56,7 +56,7 @@ class Medecin extends User {
                                     FROM rendez_vous r 
                                     JOIN users p ON r.patient_id = p.id 
                                     JOIN users m ON r.medecin_id = m.id 
-                                    WHERE r.id = ? AND r.medecin_id = ? AND r.type = 'rendez_vous'");
+                                    WHERE r.id = ? AND r.medecin_id = ?");
         $stmt->execute([$id, $this->id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

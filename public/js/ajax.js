@@ -45,6 +45,9 @@ function updateAppointment(appointmentId, newStatus) {
         document.getElementById("success-message").textContent = response.message
         document.getElementById("success-message").style.display = "block"
         document.getElementById("status-display").textContent = newStatus
+        if (document.getElementById("consultation-status-display")) {
+          document.getElementById("consultation-status-display").textContent = newStatus
+        }
       } else {
         alert("Erreur: " + response.message)
       }
