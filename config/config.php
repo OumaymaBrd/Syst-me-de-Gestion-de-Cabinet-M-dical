@@ -1,11 +1,5 @@
 <?php
 
-return [
-    'database' => [
-        'host' => 'localhost',
-        'name' => 'cabinet_medical',
-        'user' => 'root',
-        'pass' => '',
-        'charset' => 'utf8mb4'
-    ]
-];
+define('BASE_URL', 'http://localhost/creation_cabinet/public');
+// define('ROOT_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+
