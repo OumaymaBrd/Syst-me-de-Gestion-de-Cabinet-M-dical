@@ -24,11 +24,9 @@ L'ancienne version du système reposait sur du PHP procédural, ce qui rendait l
 ## 🏗️ Architecture du Projet
 L'application est découpée selon une structure logique stricte :
 
-* **Modèle (`Classes/`) :** Contient les entités (Patient, Médecin, Rendez-vous) et la logique d'interaction avec **PostgreSQL**.
-* **Contrôleur (`Actions/`) :** Gère la logique métier, traite les formulaires et dirige les flux de données.
-* **Vue (`Pages/`) :** Contient les fichiers d'affichage et les templates réutilisables (header, footer).
-* **Configuration (`Config/`) :** Centralise la connexion à la base de données et les paramètres globaux.
-
+* **Modèle (`models/`) :** Contient les entités (Patient, Médecin, Rendez-vous) et la logique d'interaction avec **PostgreSQL**.
+* **Contrôleur (`controllers/`) :** Gère la logique métier, traite les formulaires et dirige les flux de données.
+* **Vue (`views/`) :** Contient les fichiers d'affichage et les templates réutilisables (header, footer).
 ---
 
 ## ✨ Fonctionnalités
@@ -64,3 +62,4 @@ L'application est découpée selon une structure logique stricte :
 ├── models/            
 ├── public/             
 ├── views/                      
+
