@@ -1,4 +1,4 @@
-# Système de Gestion de Cabinet Médical
+## Système de Gestion de Cabinet Médical
 
 ## Description
 Ce projet est une migration d'une application de gestion de cabinet médical, passant d'une architecture PHP native procédurale à une architecture MVC (Modèle-Vue-Contrôleur). L'objectif est d'améliorer la modularité, la maintenabilité et la scalabilité du système.
@@ -55,4 +55,5 @@ Le cabinet médical utilise actuellement une application développée en PHP nat
 - Séparation stricte des couches MVC
 
 ## Installation
+
 1. Clonez le repository
